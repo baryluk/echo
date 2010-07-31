@@ -1,0 +1,19 @@
+PHP-like variable interpolation inside of the string.
+
+Just use it like this:
+
+echo("Testing i=$i j=$j");
+
+You can also escape $ or use more complicated expressions:
+
+echo("Escaping: \\$j, Complicated i+j=${i+j}, just works");
+
+
+echo uses stdio.writefln, so currently there is only possible to use Phobos,
+and output to the stdout.
+
+TODO:
+  - 2 pass algorithm to detect types, and do not depend on writefln("%s"),
+    RTIA type detection, as it is not "the-right-way", and is slower.
+
+
