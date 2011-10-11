@@ -69,9 +69,9 @@ bool isalnum(char c) {
 }
 
 /** Call preecho1("T $i, b, ${i-2}") returns ["T %s, b, %s", ", i, (i-2)"] */
-T[][] preecho1(T)(in T[] s) {
-	T[] r1 = "";
-	T[] r2 = "";
+string[] preecho1(T)(in T[] s) {
+	string r1 = "";
+	string r2 = "";
 	int i = 0;
 	bool esc = false;
 	while (i < s.length) {
@@ -117,12 +117,12 @@ T[][] preecho1(T)(in T[] s) {
 	return [r1,r2];
 }
 /** Call preecho2("T $i, b, ${i-2}") returns `"T ", i, " b, ", (i-2)` */
-T[] preecho2(T)(in T[] s) {
-	T[] r = "";
+string preecho2(T)(in T[] s) {
+	string r = "";
 	int i = 0;
 	bool esc = false;
 	bool instr = false;
-	T[] sep = "";
+	string sep = "";
 	while (i < s.length) {
 		if (i > 0) {
 			sep = ", ";
@@ -181,8 +181,8 @@ T[] preecho2(T)(in T[] s) {
 }
 
 /** Main macro, which use preecho1 */
-T[] echo(T)(in T[] s) {
-	char[][] r = preecho1(s);
+string echo(T)(in T[] s) {
+	string[] r = preecho1(s);
 	return "writefln(\"" ~ r[0] ~ "\"" ~ r[1] ~ ");\n";
 }
 unittest {
@@ -192,7 +192,7 @@ unittest {
 }
 
 /** Alternative main macro, which use preecho2 */
-T[] echo2(T)(in T[] s) {
+string echo2(T)(in T[] s) {
 	return "writefln(" ~ preecho2(s) ~ ");\n";
 }
 unittest {
@@ -201,9 +201,9 @@ unittest {
 
 
 import std.stdarg;
-char[] cordcat(...) {
+string cordcat(...) {
 	for (int i = 0; i < _arguments.length; i++) {
-		_arguments[i].print();
+		//_arguments[i].print();
 		if (_arguments[i] == typeid(int)) {
 			return "int"; //toString(va_arg!(int)(_argptr));
 		} else if (_arguments[i] == typeid(char[])) {
@@ -225,9 +225,9 @@ private import std.stdio;
 private void main() {
 	int j = 11, i = 14;
 
-	const char[] t1 = r"echo test: i=$i j=$j Escaping: \$j, Complicated i+j=${i+j}, End of tests.";
+	const string t1 = r"echo test: i=$i j=$j Escaping: \$j, Complicated i+j=${i+j}, End of tests.";
 	writefln("Template: %s", t1);
-	const t1c = echo(t1);
+	const string t1c = echo(t1);
 	writefln("Code: %s", t1c);
 	writef("Result: ");
 	mixin(t1c);
@@ -236,9 +236,9 @@ private void main() {
 	writefln();
 	writefln();
 
-	const char[] t2 = r"echo2 test: i=$i j=$j Escaping: \$j, Complicated i+j=${i+j}, End of tests.";
+	const string t2 = r"echo2 test: i=$i j=$j Escaping: \$j, Complicated i+j=${i+j}, End of tests.";
 	writefln("Template: %s", t2);
-	const t2c = echo2(t2);
+	const string t2c = echo2(t2);
 	writefln("Code2: %s", t2c);
 	writef("Result: ");
 	mixin(t2c);
@@ -247,9 +247,9 @@ private void main() {
 	writefln();
 	writefln();
 
-	const char[] t3 = r"echo2 test: i=$i j=$j Escaping: \$j, Complicated i+j=${i+j}, End of tests.";
+	const string t3 = r"echo2 test: i=$i j=$j Escaping: \$j, Complicated i+j=${i+j}, End of tests.";
 	writefln("Template: %s", t3);
-	const t3c = tpl(t3);
+	const string t3c = tpl(t3);
 pragma(msg, t3c);
 	writefln("Code3: %s", t3c);
 	auto v = mixin(t3c);

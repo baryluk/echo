@@ -69,9 +69,9 @@ bool isalnum(char c) {
 }
 
 /** Call preecho1("T $i, b, ${i-2}") returns ["T %s, b, %s", ", i, (i-2)"] */
-char[][] preecho1(char[] s) {
-	char[] r1 = "";
-	char[] r2 = "";
+string[] preecho1(string s) {
+	string r1 = "";
+	string r2 = "";
 	int i = 0;
 	bool esc = false;
 	while (i < s.length) {
@@ -117,12 +117,12 @@ char[][] preecho1(char[] s) {
 	return [r1,r2];
 }
 /** Call preecho2("T $i, b, ${i-2}") returns `"T ", i, " b, ", (i-2)` */
-char[] preecho2(char[] s) {
-	char[] r = "";
+string preecho2(string s) {
+	string r = "";
 	int i = 0;
 	bool esc = false;
 	bool instr = false;
-	char[] sep = "";
+	string sep = "";
 	while (i < s.length) {
 		if (i > 0) {
 			sep = ", ";
@@ -181,8 +181,8 @@ char[] preecho2(char[] s) {
 }
 
 /** Main macro, which use preecho1 */
-char[] echo(char[] s) {
-	char[][] r = preecho1(s);
+string echo(string s) {
+	string[] r = preecho1(s);
 	return "writefln(\"" ~ r[0] ~ "\"" ~ r[1] ~ ");\n";
 }
 unittest {
@@ -192,7 +192,7 @@ unittest {
 }
 
 /** Alternative main macro, which use preecho2 */
-char[] echo2(char[] s) {
+string echo2(string s) {
 	return "writefln(" ~ preecho2(s) ~ ");\n";
 }
 unittest {
